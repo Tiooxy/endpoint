@@ -39,7 +39,7 @@ app.get("/igstalk", async (req, res) => {
     res.json(result);
   } catch (error) {
     console.error("Error:", error);
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(500).json({ error: error });
   }
 });
 
