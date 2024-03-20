@@ -9,8 +9,8 @@ const port = 3000;
 async function igstalk(query) {
 return new Promise(async (resolve, reject) => {
 			try {
-	    const data = await fetch(`https://instasupersave.com/api/ig/userInfoByUsername/mrbeast`);
-	const res = data.json().result.user;
+	    const data = await (await fetch(`https://instasupersave.com/api/ig/userInfoByUsername/mrbeast`)).json();
+	const res = data.result.user;
         const result = {
 username: res.username,
 fullname: res.full_name,
