@@ -31,7 +31,7 @@ biography: res.biography
 			})
 		}
 
-app.get("/", async (req, res) => {
+app.get("/igstalk", async (req, res) => {
   try {
     const q = req.query.text
     if (!q) return res.json('masukan prompt text')
