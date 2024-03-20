@@ -1,5 +1,5 @@
 const express = require("express");
-const axios = require("axios");
+const fetch = require("node-fetch");
 const cheerio = require("cheerio");
 
 const app = express();
@@ -9,10 +9,8 @@ const port = 3000;
 async function igstalk(query) {
 return new Promise(async (resolve, reject) => {
 			try {
-	    const {
-            data
-        } = await axios.get(`https://instasupersave.com/api/ig/userInfoByUsername/mrbeast`);
-	const res = data.result.user;
+	    const data = await fetch(`https://instasupersave.com/api/ig/userInfoByUsername/mrbeast`);
+	const res = data.json().result.user;
         const result = {
 username: res.username,
 fullname: res.full_name,
