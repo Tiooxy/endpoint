@@ -6,30 +6,36 @@ const app = express();
 app.set("json spaces", 2);
 const port = 3000;
 
-//scraper by miftah
-async function nexLibur() {
-  const { data } = await axios.get("https://www.liburnasional.com/");
-  let libnas_content = [];
-  let $ = cheerio.load(data);
-  let result = {
-    nextLibur:
-      "Hari libur" +
-      $("div.row.row-alert > div").text().split("Hari libur")[1].trim(),
-    libnas_content,
-  };
-  $("tbody > tr > td > span > div").each(function (a, b) {
-    const summary = $(b).find("span > strong > a").text();
-    const days = $(b).find("div.libnas-calendar-holiday-weekday").text();
-    const dateMonth = $(b).find("time.libnas-calendar-holiday-datemonth").text();
-    const img = $(b).find(".libnas-holiday-calendar-img").attr("src")
-    libnas_content.push({ summary, days, dateMonth, img });
-  });
-  return result;
+async function igstalk(query) {
+return new Promise(async (resolve, reject) => {
+			try {
+	    const {
+            data
+        } = await axios.get(`https://instasupersave.com/api/ig/userInfoByUsername/mrbeast`);
+	const res = data.result.user;
+        const result = {
+username: res.username,
+fullname: res.full_name,
+post_count: res.media_count,
+followers: res.follower_count,
+following: res.following_count,
+verifed: res.is_verified,
+private: res.is_private,
+external_url: res.external_url,
+biography: res.biography 
 }
+					resolve(result)
+				} catch (e) {
+					reject(e)
+				}
+			})
+		}
 
 app.get("/", async (req, res) => {
   try {
-    const result = await nexLibur();
+    const q = req.query.text
+    if (!q) return res.json('masukan prompt text')
+    const result = await igstalk(q);
     res.json(result);
   } catch (error) {
     console.error("Error:", error);
